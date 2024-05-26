@@ -20,11 +20,11 @@ OUTPUT_DIR = data/output
 
 $(INTERMEDIATE_DIR)/%.rttm: $(RAW_DIR)/%.mp3
 	@echo "`date '+%Y-%m-%d %H:%M:%S'`: Generating rttm for $<..."
-	.venv_pyannote/bin/python diarization.py --filepath $<
+	.venv_pyannote/bin/python interview_transcription/diarize.py --filepath $<
 
 $(OUTPUT_DIR)/%.txt: $(RAW_DIR)/%.mp3 $(INTERMEDIATE_DIR)/%.rttm
 	@echo "`date '+%Y-%m-%d %H:%M:%S'`: Generating transcript for $<..."
-	.venv_openai/bin/python transcription.py --filepath $<
+	.venv_openai/bin/python interview_transcription/transcribe.py --filepath $<
 
 MP3_FILES = $(wildcard $(RAW_DIR)/*.mp3)
 RTTM_FILES = $(patsubst $(RAW_DIR)/%.mp3,$(INTERMEDIATE_DIR)/%.rttm,$(MP3_FILES))
